@@ -12,10 +12,11 @@ const jsonwebtoken=require('jsonwebtoken')
 
 const tenant=require('./Schema/Tenant')
 const user=require('./Schema/User')
-const role=require('./Schema/Role')
+const Role=require('./Schema/Role')
 const project=require('./Schema/Project')
 const authorization=require('./Function/auth')
 const cors=require('./Function/cors')
+const { permission } = require('process')
 
 app.use(express.json())
 app.use(bodyparser.json())
@@ -41,6 +42,8 @@ app.listen(8888,()=>{
 app.get('/',async(req,res)=>{
     res.send('welcomw')
 })
+
+//TENANTS
 
 app.post('/api/tenant/register',async(req,res)=>{
     try{
@@ -116,6 +119,9 @@ app.put('/api/tenant/user/update',async(req,res)=>{
     }
 })
 
+//USERS
+
+
 app.post('/api/tenant/user',async(req,res)=>{
     try{
         const {tenant_id,user_name,user_email,user_password,role}=req.body
@@ -173,3 +179,41 @@ app.get('/api/user/viewer',async(req,res)=>{
          res.status(500).json({message:"something wrong",error})
     }
 })
+
+app.post('/api/tenant/project',async(req,res)=>{
+    try{
+        const {manager_id,tenant_id,name,description}=req.body
+        const tenant_project=new project({
+            manager_id,tenant_id,name,description
+        }).save()
+        res.status(200).json({message:'Project add successfully',data:tenant_project})
+    }catch(error){
+         res.status(500).json({message:"something wrong",error})
+    }
+})
+
+//ROLES
+
+app.post('/api/user/roles',async(req,res)=>{
+        try{
+            //const {name}=req.body
+            const roles=[
+                {name:'admin',permissions:['create', 'read', 'update', 'delete']},
+                {name:'manager',permissions:['create', 'read', 'update',]},
+                {name:'viewer',permissions:['read']}
+            ]
+            const user_roles=[]
+            for(const role of roles){
+                    const save=await Role.findOneAndUpdate({
+                        name:role.name
+                    },role,{new:true,upsert:true}) 
+                    user_roles.push(save)
+            }
+        
+            res.status(200).json({message:'success',data:user_roles})
+        }catch(error){
+            res.status(500).json({message:"something wrong",error})
+        }
+})
+
+
