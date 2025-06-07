@@ -119,6 +119,10 @@ app.put('/api/tenant/user/update',async(req,res)=>{
 app.post('/api/tenant/user',async(req,res)=>{
     try{
         const {tenant_id,user_name,user_email,user_password,role}=req.body
+        const existing_user=await user.find({user_email})
+        if(existing_user){
+            return res.status(400).json({message:'user already exist'})
+        }
         const new_user=new user({
             tenant_id,user_name,user_email,user_password,role
         }).save()
@@ -144,7 +148,9 @@ app.post('/api/auth/login',async(req,res)=>{
                 res.setHeader('user_email',user_login.user_email)
                 res.setHeader('role',user_login.role)
                 res.setHeader('tenant_id',user_login.tenant_id)
-               
+            //    if(!user_login){
+            //     return res.status(401).json({message:'unauthorized'})
+            //    }
 
                res.status(200).json({message:'success',token,data:user_login})
                console.log(user_login);
@@ -158,5 +164,12 @@ app.post('/api/auth/login',async(req,res)=>{
     }
 })
 
-app.post()
-     
+
+app.get('/api/user/viewer',async(req,res)=>{
+    try{
+        const user_view=await user.find({})
+        res.status(200).json({message:'User are',data:user_view})
+    }catch(error){
+         res.status(500).json({message:"something wrong",error})
+    }
+})

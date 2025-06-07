@@ -7,6 +7,10 @@ const project=new mongoose.Schema({
     name:{type:String},
     description:{type:String},
     status:{type:String,
-        default:'Active'}
+        default:'Active'},
+    createAt:{
+        type:Date,
+        default:Date.now
+    }
 })
 module.exports=mongoose.model('Project',project)
