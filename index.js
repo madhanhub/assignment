@@ -170,7 +170,7 @@ app.post('/api/auth/login',async(req,res)=>{
 })
 
 
-app.get('/api/tenant/user/viewer',async(req,res)=>{
+app.get('/api/tenant/user/viewer',authorization,async(req,res)=>{
     try{
         const user_view=await user.find({})
         res.status(200).json({message:'User are',data:user_view})
@@ -246,7 +246,7 @@ app.delete('/api/tenant/project/delete',authorization,async(req,res)=>{
     }
 })
 
-app.get('/api/tenant/project/view',async(req,res)=>{
+app.get('/api/tenant/project/view',authorization,async(req,res)=>{
     try{
         // const {}=req.body
         const project_view=await project.find({})
