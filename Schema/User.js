@@ -1,9 +1,8 @@
 const mongoose=require('mongoose')
-const Tenant = require('./Tenant')
 const user=new mongoose.Schema({
     tenant_id:{
         type:String,
-        ref:Tenant
+        
     },
     user_name:{
         type:String

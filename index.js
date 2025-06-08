@@ -57,9 +57,9 @@ app.post('/api/tenant/register',async(req,res)=>{
         const tenant_reg=new tenant({
             tenant_name,admin_mail,password
         }).save()
-        res.status(200).json({message:'success',data:tenant_reg})
+        res.status(200).json({message:'New Tenant Added ',data:tenant_reg})
     }catch(error){
-        res.status(500).json({message:"failed"})
+        res.status(500).json({message:"New Tenant Addition Failed"})
     }
 
 })
@@ -76,65 +76,66 @@ app.post('/api/tenant/login',async(req,res)=>{
                 res.setHeader('tenant_name',tenant_login.tenant_name)
                 res.setHeader('admin_mail',tenant_login.admin_mail)
 
-                res.status(200).json({message:'success',tenant_token,data:tenant_login})
+                res.status(200).json({message:'Tenant Login Successfully',tenant_token,data:tenant_login})
             }
         }
 
         
     }catch(error){
-        res.status(500).json({message:failed})
+        res.status(500).json({message:'Logain Failed'})
     }
 })
 
-app.delete('/api/tenat/user/deleted',authorization,async(req,res)=>{
+app.delete('/api/tenat/deleted',authorization,async(req,res)=>{
     try{
-        user_email=req.user_email
-        const user_delete=await user.findOneAndDelete({user_email})
-        res.status(200).json({message:'User Deleted Successfully',data:user_delete})
+        const _id=req.id
+        const tenant_delete=await tenant.findOneAndDelete({_id})
+        res.status(200).json({message:'Tenant Deleted Successfully',data:tenant_delete})
     }catch(error){
-        res.status(500).json({message:'User Still here'})
+        res.status(500).json({message:'Tenant Still Here'})
     }
 })
 
-app.get('/api/tenant/user/fetch',async(req,res)=>{
+app.get('/api/tenant/fetch',async(req,res)=>{
     try{
-        const user_fetch=await user.find({})
-        res.status(200).json({message:'User Are',data:user_fetch})
+        const user_fetch=await tenant.find({})
+        res.status(200).json({message:'Tenant Are',data:user_fetch})
     }catch(error){
         res.status(500).json({message:'Un able to fetch'})
     }
 })
 
-app.put('/api/tenant/user/update',async(req,res)=>{
+app.put('/api/tenant/update',authorization,async(req,res)=>{
     try{
-        const {user_id,user_name,user_email,user_password,role}=req.body
-        const user_update=await user.findOneAndUpdate({user_email},
+        const {admin_mail,password}=req.body
+        const _id=req.id
+        const tenant_update=await tenant.findOneAndUpdate({_id},
             {$set:{
-                user_name,user_email,user_password,role
+                admin_mail,password
             }}
         )
-        res.status(200).json({message:'user update successfully',data:user_update})
+        res.status(200).json({message:'Tenant Update Successfully',data:tenant_update})
     }catch(error){
-        res.status(500).json({message:'User not updated'})
+        res.status(500).json({message:'Tenant not updated'})
     }
 })
 
 //USERS
 
-
 app.post('/api/tenant/user',async(req,res)=>{
     try{
         const {tenant_id,user_name,user_email,user_password,role}=req.body
-        const existing_user=await user.find({user_email})
+
+        const existing_user=await user.findOne({user_email})
         if(existing_user){
-            return res.status(400).json({message:'user already exist'})
+            return res.status(400).json({message:'User Already Exist'})
         }
-        const new_user=new user({
+        const newUser=new user({
             tenant_id,user_name,user_email,user_password,role
         }).save()
-        res.status(200).json({message:'success',data:new_user})
+        res.status(200).json({message:'User Registered',data:newUser})
     }catch(error){
-         res.status(500).json({message:"failed"})
+        res.status(500).json({message:'Registration Failed'})
     }
 })
 
@@ -154,9 +155,7 @@ app.post('/api/auth/login',async(req,res)=>{
                 res.setHeader('user_email',user_login.user_email)
                 res.setHeader('role',user_login.role)
                 res.setHeader('tenant_id',user_login.tenant_id)
-            //    if(!user_login){
-            //     return res.status(401).json({message:'unauthorized'})
-            //    }
+            
 
                res.status(200).json({message:'success',token,data:user_login})
                console.log(user_login);
@@ -171,7 +170,7 @@ app.post('/api/auth/login',async(req,res)=>{
 })
 
 
-app.get('/api/user/viewer',async(req,res)=>{
+app.get('/api/tenant/user/viewer',async(req,res)=>{
     try{
         const user_view=await user.find({})
         res.status(200).json({message:'User are',data:user_view})
@@ -180,9 +179,37 @@ app.get('/api/user/viewer',async(req,res)=>{
     }
 })
 
-app.post('/api/tenant/project',async(req,res)=>{
+app.delete('/api/tenant/user/delete',authorization,async(req,res)=>{
     try{
-        const {manager_id,tenant_id,name,description}=req.body
+        _id=req.id
+        const user_delete=await user.findOneAndDelete({_id})
+        res.status(200).json({message:'User Deleted',data:user_delete})
+    }catch(error){
+         res.status(500).json({message:"User Still Here",error})
+    }
+})
+
+app.put('/api/tenant/user/update',authorization,async(req,res)=>{
+    try{
+        const {user_name,user_email,user_password,role}=req.body
+        _id=req.id
+        const user_update=await user.findOneAndUpdate({_id},
+            {$set:{
+                user_name,user_email,user_password,role
+            }}   
+        )
+        res.status(200).json({message:'User Update Successfully',data:user_update})
+    }catch(error){
+        res.status(500).json({message:'User Updation Failed'})
+    }
+})
+//PROJECT
+
+
+app.post('/api/tenant/project',authorization,async(req,res)=>{
+    try{
+        const {manager_id,name,description}=req.body
+        const tenant_id=req.id
         const tenant_project=new project({
             manager_id,tenant_id,name,description
         }).save()
@@ -192,6 +219,43 @@ app.post('/api/tenant/project',async(req,res)=>{
     }
 })
 
+app.put('/api/tenant/project/update',authorization,async(req,res)=>{
+    try{
+        const {name,description,status}=req.body
+        const tenant_id=req.id
+        const project_update=await project.findOneAndUpdate({tenant_id},
+            {$set:{
+                name,description,status
+            }}
+        )
+        res.status(200).json({message:'project updated',data:project_update})
+    }catch(error){
+         res.status(500).json({message:"something wrong",error})
+    }
+})
+
+
+app.delete('/api/tenant/project/delete',authorization,async(req,res)=>{
+    try{
+        const tenant_id=req.id
+        const project_delete=await project.findOneAndDelete({tenant_id})
+
+        res.status(200).json({message:'projected Deleted',data:project_delete})
+    }catch(error){
+         res.status(500).json({message:"something wrong",error})
+    }
+})
+
+app.get('/api/tenant/project/view',async(req,res)=>{
+    try{
+        // const {}=req.body
+        const project_view=await project.find({})
+
+        res.status(200).json({message:'projected List',data:project_view})
+    }catch(error){
+         res.status(500).json({message:"something wrong",error})
+    }
+})
 //ROLES
 
 app.post('/api/user/roles',async(req,res)=>{
@@ -202,7 +266,7 @@ app.post('/api/user/roles',async(req,res)=>{
                 {name:'manager',permissions:['create', 'read', 'update',]},
                 {name:'viewer',permissions:['read']}
             ]
-            const user_roles=[]
+            const user_roles=['admin']
             for(const role of roles){
                     const save=await Role.findOneAndUpdate({
                         name:role.name
