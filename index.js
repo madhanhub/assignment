@@ -3,8 +3,6 @@ const app=express()
 const bodyparser=require('body-parser')
 const mongoose=require('mongoose')
 const morgan =require('morgan')
-const path=require('path')
-const http=require('http')
 
 require('dotenv').config()
 const jsonwebtoken=require('jsonwebtoken')
@@ -16,7 +14,7 @@ const Role=require('./Schema/Role')
 const project=require('./Schema/Project')
 const authorization=require('./Function/auth')
 const cors=require('./Function/cors')
-const { permission } = require('process')
+
 
 app.use(express.json())
 app.use(bodyparser.json())
@@ -86,7 +84,7 @@ app.post('/api/tenant/login',async(req,res)=>{
     }
 })
 
-app.delete('/api/tenat/deleted',authorization,async(req,res)=>{
+app.delete('/api/tenant/deleted',authorization,async(req,res)=>{
     try{
         const _id=req.id
         const tenant_delete=await tenant.findOneAndDelete({_id})
@@ -96,7 +94,7 @@ app.delete('/api/tenat/deleted',authorization,async(req,res)=>{
     }
 })
 
-app.get('/api/tenant/fetch',async(req,res)=>{
+app.get('/api/tenant/view',async(req,res)=>{
     try{
         const user_fetch=await tenant.find({})
         res.status(200).json({message:'Tenant Are',data:user_fetch})
@@ -107,11 +105,11 @@ app.get('/api/tenant/fetch',async(req,res)=>{
 
 app.put('/api/tenant/update',authorization,async(req,res)=>{
     try{
-        const {admin_mail,password}=req.body
+        const {tenant_name,admin_mail,password}=req.body
         const _id=req.id
         const tenant_update=await tenant.findOneAndUpdate({_id},
             {$set:{
-                admin_mail,password
+                tenant_name,admin_mail,password
             }}
         )
         res.status(200).json({message:'Tenant Update Successfully',data:tenant_update})
