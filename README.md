@@ -109,7 +109,7 @@
 
 **User**
 
-      1)User Register  :
+       1)User Register  :
           •	Methos POST : api/tenant/user
           •	It create new user for tenant with specific role base 
           •	Checks unique user 
@@ -127,20 +127,17 @@
           •	It need authorization for remove existing user
           •	Requirements : user_id
           
-
   •	4) User Update    :
           •	Methods PUT : api/tenant/user/update 
           •	Update existing data of users using proper validation 
           •	Requirements : _id,user_name,user_email,user_password,role
-
-          
 
   •	5) Uesr View     :
           •	Method GET  : api/tenant/user/view
           •	It is used to list the user in your DataBase
           •	Requirements : user_id
           
-          
+
 **Project**
 
 
