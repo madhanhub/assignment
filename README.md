@@ -126,11 +126,14 @@
           •	Use to delete users with the help of user_id
           •	It need authorization for remove existing user
           •	Requirements : user_id
+          
 
   •	4) User Update    :
           •	Methods PUT : api/tenant/user/update 
           •	Update existing data of users using proper validation 
           •	Requirements : _id,user_name,user_email,user_password,role
+
+          
 
   •	5) Uesr View     :
           •	Method GET  : api/tenant/user/view
