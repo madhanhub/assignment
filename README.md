@@ -79,7 +79,7 @@
 
 
     •	1) Tenant register :
-            •	Methods POST : api/tenant/register 
+            •	Method POST : api/tenant/register 
             •	`		Create new Tenant with tenant_name, admil_mail, password ,createAt
             •	With checks existing user
             •	Requirements : tenant_name, admil_mail, password ,createAt
@@ -97,20 +97,20 @@
             •	Requirements : tenant_id 
             
     •	4) Tenant Update   : 
-            •	method PUT: api/tenant/update
+            •	Method PUT: api/tenant/update
             •	It update existing tenant details with the help of tenant_id 
             •	Token header contain tenant_id for proper security checks
             •	Requirements : tenant_name, admin_mail, password
             
     •	5) Tenant View     : 
-            •	Methos GET: api/tenant/view
+            •	Metho GET: api/tenant/view
             •	Use to list all tenants in your DataBase
             •	Requirements : tenant_id, 
 
 **User**
 
        1) User Register  :
-          •	Methos POST : api/tenant/user
+          •	Method POST : api/tenant/user
           •	It create new user for tenant with specific role base 
           •	Checks unique user 
           •	Requirement : tenant_id,user_name,user_email,user_password,role
@@ -122,13 +122,13 @@
           •	Requirements : user_email, password
 
     •	3) User Delete    : 
-          •	Methos DELETE: api/tenant/user/delete
+          •	Method DELETE: api/tenant/user/delete
           •	Use to delete users with the help of user_id
           •	It need authorization for remove existing user
           •	Requirements : user_id
           
   •	 4) User Update    :
-          •	Methods PUT : api/tenant/user/update 
+          •	Method PUT : api/tenant/user/update 
           •	Update existing data of users using proper validation 
           •	Requirements : _id,user_name,user_email,user_password,role
           
