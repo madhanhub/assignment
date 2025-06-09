@@ -43,6 +43,8 @@ app.get('/',async(req,res)=>{
 
 //TENANTS
 
+//'/api/tenant/register'
+
 app.post('/api/tenant/register',async(req,res)=>{
     try{
         const {tenant_name,admin_mail,password}=req.body
@@ -61,6 +63,9 @@ app.post('/api/tenant/register',async(req,res)=>{
     }
 
 })
+
+
+//'/api/tenant/login'
 
 app.post('/api/tenant/login',async(req,res)=>{
     try{
@@ -84,6 +89,8 @@ app.post('/api/tenant/login',async(req,res)=>{
     }
 })
 
+//'/api/tenant/deleted'
+
 app.delete('/api/tenant/deleted',authorization,async(req,res)=>{
     try{
         const _id=req.id
@@ -94,6 +101,8 @@ app.delete('/api/tenant/deleted',authorization,async(req,res)=>{
     }
 })
 
+//'/api/tenant/view'
+
 app.get('/api/tenant/view',async(req,res)=>{
     try{
         const user_fetch=await tenant.find({})
@@ -102,6 +111,9 @@ app.get('/api/tenant/view',async(req,res)=>{
         res.status(500).json({message:'Un able to fetch'})
     }
 })
+
+
+//'/api/tenant/update'
 
 app.put('/api/tenant/update',authorization,async(req,res)=>{
     try{
@@ -120,6 +132,8 @@ app.put('/api/tenant/update',authorization,async(req,res)=>{
 
 //USERS
 
+//'/api/tenant/user'
+
 app.post('/api/tenant/user',async(req,res)=>{
     try{
         const {tenant_id,user_name,user_email,user_password,role}=req.body
@@ -137,6 +151,7 @@ app.post('/api/tenant/user',async(req,res)=>{
     }
 })
 
+//'/api/auth/login'
 
 app.post('/api/auth/login',async(req,res)=>{
     try{
@@ -167,6 +182,7 @@ app.post('/api/auth/login',async(req,res)=>{
     }
 })
 
+//'/api/tenant/user/viewer'
 
 app.get('/api/tenant/user/viewer',authorization,async(req,res)=>{
     try{
@@ -177,6 +193,8 @@ app.get('/api/tenant/user/viewer',authorization,async(req,res)=>{
     }
 })
 
+//'/api/tenant/user/delete'
+
 app.delete('/api/tenant/user/delete',authorization,async(req,res)=>{
     try{
         _id=req.id
@@ -186,6 +204,8 @@ app.delete('/api/tenant/user/delete',authorization,async(req,res)=>{
          res.status(500).json({message:"User Still Here",error})
     }
 })
+
+//'/api/tenant/user/update'
 
 app.put('/api/tenant/user/update',authorization,async(req,res)=>{
     try{
@@ -203,6 +223,7 @@ app.put('/api/tenant/user/update',authorization,async(req,res)=>{
 })
 //PROJECT
 
+//'/api/tenant/project'
 
 app.post('/api/tenant/project',authorization,async(req,res)=>{
     try{
@@ -216,6 +237,8 @@ app.post('/api/tenant/project',authorization,async(req,res)=>{
          res.status(500).json({message:"something wrong",error})
     }
 })
+
+//'/api/tenant/project/update'
 
 app.put('/api/tenant/project/update',authorization,async(req,res)=>{
     try{
@@ -232,6 +255,7 @@ app.put('/api/tenant/project/update',authorization,async(req,res)=>{
     }
 })
 
+//'/api/tenant/project/delete'
 
 app.delete('/api/tenant/project/delete',authorization,async(req,res)=>{
     try{
@@ -244,6 +268,8 @@ app.delete('/api/tenant/project/delete',authorization,async(req,res)=>{
     }
 })
 
+//'/api/tenant/project/view'
+
 app.get('/api/tenant/project/view',authorization,async(req,res)=>{
     try{
         // const {}=req.body
@@ -255,6 +281,7 @@ app.get('/api/tenant/project/view',authorization,async(req,res)=>{
     }
 })
 //ROLES
+//'/api/user/roles'
 
 app.post('/api/user/roles',async(req,res)=>{
         try{
