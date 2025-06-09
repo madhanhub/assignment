@@ -76,6 +76,8 @@
 **Modules and Endpoints**
 
 **Tenant**
+
+
     •	1) Tenant register :
             •	Methods POST : api/tenant/register 
             •	`		Create new Tenant with tenant_name, admil_mail, password ,createAt
@@ -135,7 +137,9 @@
           •	It is used to list the user in your DataBase
           •	Requirements : user_id
           
+          
 **Project**
+
 
     1) Create Project:
           •	Method POST : api/tenant/project
