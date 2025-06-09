@@ -69,7 +69,7 @@
 **Schemas :**
 
       •	Tenant -  tenant_name, admil_mail, password ,createAt
-      •	User   -  teanant_id,user_name,user_email, user_password, role, createAt
+      •	User   -  tenant_id,user_name,user_email, user_password, role, createAt
       •	Role   -  name, permission
       •	project-  tenant_id, manager_id, name, description, status, createAt
 
@@ -94,7 +94,7 @@
             •	Method DELETE: api/tenant/delete
             •	It used to delete existing tenants with proper authorization 
             •	It delete tenant with check tenant_id using token
-            •	Requirements : token_id 
+            •	Requirements : tenant_id 
             
     •	4) Tenant Update   : 
             •	method PUT: api/tenant/update
@@ -173,7 +173,7 @@
 
           •	Use jsonwebtoken for authenticate users and tenants for handle project, updates 
           •	Every routes has authentication for CRUD operations 
-          •	Token header contain teanat_id,user_name,admin_mail,user_name,user_id
+          •	Token header contain tenant_id,user_name,admin_mail,user_name,user_id
 
 **Error Handling :**
 
@@ -184,7 +184,8 @@
 **MongoDB :** 
 
           •	Use mongoDB queries for find filter update and delete like (find ,findOne, findOneAndUpdate, findOneAndDelete)
-          •	It store data in json formate in key value pair 
+          •	It store data in json formate in key value pair, token formate is beared toker
+          
 
 
 
