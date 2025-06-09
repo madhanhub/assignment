@@ -1,6 +1,6 @@
 **Tenant and User Management**
 
-      •	This backend project has implemented tenant and user management with role- base control using Node.js ,Express.js 
+      •	This backend project has implemented tenant and user management with role- base control using Node.js ,Express.js ,Mongoose
       •	MongoDB and JsonWebToken(JWT) for Authentication
 
       •	Tenants have their own users and they are assigned roles like 'Admin' ,'Manager' and Viewer each and every user has specific operations. Backend gives secret login with authentication for CRUD operations 
